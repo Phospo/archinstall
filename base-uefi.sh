@@ -4,12 +4,12 @@ ln -sf /usr/share/zoneinfo/Europe/Warsaw /etc/localtime
 hwclock --systohc
 sed -i '177s/.//' /etc/locale.gen
 locale-gen
-echo "LANG=en_US.UTF-8" >> /etc/locale.conf
-echo "KEYMAP=de_CH-latin1" >> /etc/vconsole.conf
-echo "arch" >> /etc/hostname
+echo "LANG=pl_PL.UTF-8" >> /etc/locale.conf
+echo "KEYMAP=pl\nFONT=Lat2-Terminus16\nFONT_MAP=8859-2" >> /etc/vconsole.conf
+echo "archvm" >> /etc/hostname
 echo "127.0.0.1 localhost" >> /etc/hosts
 echo "::1       localhost" >> /etc/hosts
-echo "127.0.1.1 arch.localdomain arch" >> /etc/hosts
+echo "127.0.1.1 archvm.localdomain  archvm" >> /etc/hosts
 echo root:password | chpasswd
 
 # You can add xorg to the installation packages, I usually add it at the DE or WM install script
@@ -24,7 +24,7 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl enable NetworkManager
-systemctl enable bluetooth
+# systemctl enable bluetooth
 systemctl enable cups.service
 systemctl enable sshd
 systemctl enable avahi-daemon
@@ -39,7 +39,7 @@ useradd -m fos
 echo fos:password | chpasswd
 usermod -aG libvirt fos
 
-echo "ermanno ALL=(ALL) ALL" >> /etc/sudoers.d/ermanno
+echo "fos ALL=(ALL) ALL" >> /etc/sudoers.d/ermanno
 
 
 printf "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m"
