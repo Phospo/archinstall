@@ -5,12 +5,13 @@ hwclock --systohc
 sed -i '177s/.//' /etc/locale.gen
 locale-gen
 echo "LANG=pl_PL.UTF-8" >> /etc/locale.conf
-echo "KEYMAP=pl\nFONT=Lat2-Terminus16\nFONT_MAP=8859-2" >> /etc/vconsole.conf
-echo "archvm" >> /etc/hostname
+echo "KEYMAP=pl
+FONT=Lat2-Terminus16
+FONT_MAP=8859-2" >> /etc/vconsole.conf
+echo "fosfor" >> /etc/hostname
 echo "127.0.0.1 localhost" >> /etc/hosts
 echo "::1       localhost" >> /etc/hosts
-echo "127.0.1.1 archvm.localdomain  archvm" >> /etc/hosts
-echo root:password | chpasswd
+echo "127.0.1.1 fosfor.localdomain  fosfor" >> /etc/hosts
 
 # You can add xorg to the installation packages, I usually add it at the DE or WM install script
 # You can remove the tlp package if you are installing on a desktop or vm
@@ -20,7 +21,7 @@ pacman -S grub sudo efibootmgr networkmanager network-manager-applet dialog wpa_
 # pacman -S --noconfirm xf86-video-amdgpu
 # pacman -S --noconfirm nvidia nvidia-utils nvidia-settings
 
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+grub-install --target=x86_64-efi --efi-directory=/boot/ --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl enable NetworkManager
@@ -37,9 +38,10 @@ systemctl enable acpid
 
 useradd -m fos
 echo fos:password | chpasswd
-usermod -aG libvirt fos
+usermod -aG libvirt fosfor
+usermod -aG wheel fosfor
 
-echo "fos ALL=(ALL) ALL" >> /etc/sudoers.d/ermanno
+echo "fosfor ALL=(ALL) ALL" >> /etc/sudoers.d/fosfor
 
 
 printf "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m"
